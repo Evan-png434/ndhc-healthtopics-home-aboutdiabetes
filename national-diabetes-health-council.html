@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diabetes Facts — National Diabetes & Health Council</title>
+<style>
+  :root{
+    --blue:#1a5691; --blue-dark:#0b3d63; --gray-bg:#f1f3f4; --text:#212121;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#fff;font-size:17px;line-height:1.6;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+
+  header.gov{background:var(--blue-dark); color:#fff; padding:7px 16px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;}
+  header.gov .search{display:flex;align-items:center;background:rgba(255,255,255,0.15);border-radius:4px;padding:3px 8px;}
+  header.gov .search input{
+    background:transparent;border:none;color:#fff;font-size:12px;width:120px;outline:none;
+  }
+  header.gov .search input::placeholder{color:rgba(255,255,255,0.7);}
+
+  .cookie-banner{
+    position:fixed; left:0; right:0; bottom:0; z-index:300;
+    background:var(--blue-dark); border-top:1px solid rgba(255,255,255,0.2); box-shadow:0 -2px 10px rgba(0,0,0,0.25);
+    padding:16px 20px; display:none; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  }
+  .cookie-banner.show{display:flex;}
+  .cookie-banner p{margin:0;font-size:13.5px;color:#fff;max-width:640px;}
+  .cookie-banner .cookie-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .cookie-banner button{border:none;border-radius:5px;padding:9px 16px;font-size:13px;cursor:pointer;font-weight:bold;}
+  .cookie-banner .accept-btn{background:#fff;color:var(--blue-dark);}
+  .cookie-banner .accept-btn:hover{background:#e8eef5;}
+  .cookie-banner .decline-btn{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.5);}
+  .cookie-banner .decline-btn:hover{background:rgba(255,255,255,0.12);}
+
+
+  .banner{background:linear-gradient(135deg, var(--blue), var(--blue-dark)); color:#fff; padding:22px 24px; display:flex; align-items:center; gap:18px; justify-content:space-between; flex-wrap:wrap;}
+  .banner-left{display:flex;align-items:center;gap:18px;}
+  .reviewer-box{
+    display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border-radius:8px;
+    padding:8px 14px;font-size:12.5px;max-width:230px;
+  }
+  .reviewer-box .avatar{
+    width:44px;height:44px;border-radius:50%;flex-shrink:0;background:#dbe6f0;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid rgba(255,255,255,0.6);
+  }
+  .reviewer-box .avatar svg{width:100%;height:100%;}
+  .reviewer-box .name{font-weight:bold;}
+  .reviewer-box .role{opacity:0.85;font-size:11.5px;}
+  .reviewer-box .bio-link{display:block;color:#fff;text-decoration:underline;font-size:11px;margin-top:2px;cursor:pointer;opacity:0.9;}
+  .seal{
+    width:70px;height:70px;border-radius:50%;background:#fff;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  }
+  .seal svg{width:100%;height:100%;}
+  .banner h1{font-size:22px;margin:0;letter-spacing:0.2px;}
+  .banner p{margin:3px 0 0;font-size:14px;opacity:0.9;}
+  .header-links{display:flex;gap:16px;flex-wrap:wrap;margin-top:9px;}
+  .header-links a{color:#fff;text-decoration:none;font-size:12.5px;font-weight:bold;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px;}
+  .header-links a:hover{border-bottom-color:#fff;}
+
+  .breadcrumb{max-width:1080px;margin:0 auto;padding:10px 18px 0;font-size:13px;color:#666;}
+  .breadcrumb a{color:var(--blue-dark);text-decoration:none;}
+  .breadcrumb a:hover{text-decoration:underline;}
+
+  nav.topnav{background:var(--gray-bg);padding:11px 16px;font-size:15px;border-bottom:1px solid #ddd;overflow-x:auto;white-space:nowrap;}
+  nav.topnav a{color:var(--blue-dark);text-decoration:none;margin-right:20px;font-weight:bold;padding-bottom:3px;border-bottom:2px solid transparent;}
+  nav.topnav a:hover{border-bottom-color:var(--blue);}
+
+  .layout{max-width:1080px;margin:0 auto;display:flex;gap:32px;padding:26px 18px 44px;align-items:flex-start;}
+  main{flex:1;min-width:0;max-width:780px;}
+  main h2{color:var(--blue-dark);border-bottom:3px solid var(--blue);padding-bottom:8px;font-size:27px;margin-top:0;}
+  main h3{color:var(--blue-dark);margin-top:32px;font-size:19px;}
+  .meta{color:#666;font-size:13.5px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid #eee;}
+  p{margin:0 0 14px;}
+  ul{padding-left:24px;}
+  li{margin-bottom:7px;}
+  .callout{background:#fff8e1;border-left:5px solid #f2b90c;padding:16px 18px;margin:22px 0;font-size:15px;border-radius:0 6px 6px 0;}
+
+  aside.onpage{
+    width:240px;flex-shrink:0;position:sticky;top:16px;display:flex;flex-direction:column;gap:16px;
+  }
+  .side-box{background:#fff;border:1px solid #e2e2e2;border-radius:8px;padding:16px 18px;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+  .side-box h4{margin:0 0 10px;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;color:#777;}
+  .side-box a{display:block;color:var(--blue-dark);text-decoration:none;padding:5px 0;border-left:3px solid transparent;padding-left:8px;transition:border-color 0.15s;}
+  .side-box a:hover{border-left-color:var(--blue);}
+  .share-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .share-row button{
+    flex:1;min-width:70px;background:#fafafa;border:1px solid #ccc;border-radius:5px;padding:7px 4px;
+    font-size:12px;cursor:pointer;color:var(--blue-dark);
+  }
+  .share-row button:hover{background:#f0f0f0;}
+  .share-row button{display:flex;align-items:center;justify-content:center;gap:5px;}
+  .share-row svg{width:13px;height:13px;flex-shrink:0;}
+
+  .term{
+    color:var(--blue-dark); text-decoration:underline dotted; text-underline-offset:3px;
+    cursor:pointer; font-weight:600; position:relative;
+  }
+  .term-popup{
+    display:none; position:absolute; left:0; top:100%; margin-top:6px; width:260px;
+    background:#fff; border:1px solid #ccc; border-radius:8px; box-shadow:0 4px 14px rgba(0,0,0,0.15);
+    padding:12px 14px; font-size:13px; font-weight:normal; color:var(--text); z-index:50; line-height:1.5;
+  }
+  .term-popup.show{display:block;}
+  .term-popup .def-title{font-weight:bold;color:var(--blue-dark);display:block;margin-bottom:4px;}
+  .term-popup a{color:var(--blue-dark);font-size:12px;font-weight:bold;}
+
+  footer{background:var(--blue-dark);color:#fff;padding:20px 16px;font-size:12px;text-align:center;}
+  footer .fine-print{opacity:0.85; margin-top:10px;}
+
+  .clue{outline:2px dashed transparent; position:relative;}
+  .clues-on .clue{outline-color:#e53935;}
+  .clues-on .clue::after{
+    content: attr(data-clue);
+    display:block; background:#e53935; color:#fff; font-size:11px; font-weight:bold;
+    padding:3px 6px; margin-top:4px; border-radius:3px;
+  }
+
+  #toggleBar{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;}
+  #toggleBar button{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
+
+  @media (max-width: 720px){
+    .layout{flex-direction:column;}
+    aside.onpage{width:100%;position:static;}
+  }
+
+  @media (prefers-color-scheme: dark){
+    body{background:#111;color:#eee;}
+  }
+
+  .site-footer{background:var(--blue-dark);color:#fff;padding:38px 18px 22px;text-align:left;}
+  .footer-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1.2fr;gap:32px;}
+  .site-footer h3{margin:0 0 10px;font-size:16px;color:#fff;}
+  .site-footer p{font-size:13px;line-height:1.55;margin:0 0 10px;opacity:.92;}
+  .site-footer a{color:#fff;text-decoration:none;font-size:13px;}
+  .site-footer a:hover{text-decoration:underline;}
+  .footer-links{display:flex;flex-direction:column;gap:7px;}
+  .footer-form{display:flex;gap:7px;margin-top:10px;}
+  .footer-form input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.35);border-radius:5px;padding:9px 10px;font-size:13px;}
+  .footer-form button,.footer-button{border:0;border-radius:5px;background:#fff;color:var(--blue-dark);font-weight:bold;padding:9px 13px;cursor:pointer;font-size:13px;}
+  .footer-form button:hover,.footer-button:hover{background:#e9f1f8;}
+  .form-status{font-size:12px;margin-top:8px;min-height:18px;}
+  .fine-print{opacity:.78;margin-top:24px;padding-top:15px;border-top:1px solid rgba(255,255,255,.2);font-size:11px;line-height:1.5;}
+  .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:center;justify-content:center;padding:18px;}
+  .modal-backdrop.show{display:flex;}
+  .modal{background:#fff;color:var(--text);width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:24px;}
+  .modal h2{color:var(--blue-dark);margin:0 0 12px;}
+  .modal-close{float:right;border:0;background:#eee;border-radius:50%;width:32px;height:32px;font-size:20px;cursor:pointer;}
+  .doctor-photo-wrap{text-align:center;margin:8px 0 18px;}
+  .doctor-photo{width:130px;height:130px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.18);}
+  .photo-caption{font-size:10px;opacity:.75;margin-top:5px;}
+  @media (max-width:720px){
+    .footer-inner{grid-template-columns:1fr;}
+  }
+
+</style>
+</head>
+<body>
+
+  <div class="cookie-banner" id="cookie-banner">
+    <p>We use cookies to operate this site, remember your preferences, and understand how visitors use our pages. You can accept all cookies or decline non-essential ones.</p>
+    <div class="cookie-actions">
+      <button type="button" class="decline-btn" onclick="document.getElementById('cookie-banner').classList.remove('show')">Decline</button>
+      <button type="button" class="accept-btn" onclick="document.getElementById('cookie-banner').classList.remove('show')">Accept</button>
+    </div>
+  </div>
+
+  <header class="gov">
+    <span>National Diabetes &amp; Health Council — dhcgov.org</span>
+    <span class="search">
+      <input type="text" placeholder="Search this site" disabled>
+    </span>
+  </header>
+
+  <div class="banner">
+    <div class="banner-left">
+    <div class="seal">
+      <!-- Generic seal: deliberately NOT the real CDC insignia -->
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="topArc" d="M 10 52 A 40 40 0 0 1 90 52" fill="none"/>
+          <path id="bottomArc" d="M 90 50 A 40 40 0 0 1 10 50" fill="none"/>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#fff" stroke="#0b3d63" stroke-width="2"/>
+        <circle cx="50" cy="50" r="45.5" fill="none" stroke="#1a5691" stroke-width="1.25"/>
+        <circle cx="50" cy="50" r="30" fill="none" stroke="#c9d9e8" stroke-width="1"/>
+        <text font-size="7.6" fill="#0b3d63" font-family="Arial" font-weight="bold" letter-spacing="1">
+          <textPath href="#topArc" startOffset="50%" text-anchor="middle">NATIONAL DIABETES</textPath>
+        </text>
+        <text font-size="7.6" fill="#0b3d63" font-family="Arial" font-weight="bold" letter-spacing="1">
+          <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">&amp; HEALTH COUNCIL</textPath>
+        </text>
+        <circle cx="27" cy="50" r="1.3" fill="#0b3d63"/>
+        <circle cx="73" cy="50" r="1.3" fill="#0b3d63"/>
+        <g fill="#1a5691">
+          <path d="M50 27 L58 45 L77 45 L62 56 L68 74 L50 63 L32 74 L38 56 L23 45 L42 45 Z" opacity="0.12"/>
+        </g>
+        <path d="M50 34 L61 50 L50 66 L39 50 Z" fill="#0b3d63"/>
+        <path d="M50 40 L56 50 L50 60 L44 50 Z" fill="#fff"/>
+        <circle cx="50" cy="50" r="2.6" fill="#0b3d63"/>
+      </svg>
+    </div>
+    <div>
+      <h1>National Diabetes &amp; Health Council</h1>
+      <p>Trusted Diabetes Information for Every American Family</p>
+       <div class="header-links" aria-label="Council information">
+         <a href="#" onclick="showPage('aboutus');return false;">About Us</a>
+         <a href="#" onclick="showPage('mission');return false;">Our Mission</a>
+         <a href="#" onclick="showPage('contact');return false;">Contact</a>
+         <a href="#" onclick="showPage('resources');return false;">Resources</a>
+       </div>
+    </div>
+    </div>
+
+    <div class="reviewer-box clue" data-clue="Fabricated 'medically reviewed by' credential with a generic stock-style avatar and no verifiable license, institution link, or credentials page — a common trust-manufacturing tactic on fake health sites">
+      <div class="avatar">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="50" fill="#c7d7e8"/>
+          <circle cx="50" cy="38" r="18" fill="#8fa8c2"/>
+          <ellipse cx="50" cy="88" rx="30" ry="24" fill="#8fa8c2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="name">Dr. Marcus Whitfield</div>
+        <div class="role">Medically Reviewed · Internal Medicine</div>
+        <span class="bio-link" onclick="showPage('bio');return false;">About Dr. Whitfield</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="breadcrumb"><a href="#">Health Topics</a> &nbsp;›&nbsp; <a href="#">Home</a> &nbsp;›&nbsp; <span id="crumb-current">About Diabetes</span></div>
+
+  <nav class="topnav">
+    <a href="#" onclick="showPage('about');return false;">About Diabetes</a>
+    <a href="#" onclick="showPage('stats');return false;">Statistics</a>
+    <a href="#" onclick="showPage('resources');return false;">Resources</a>
+    <a href="#" onclick="showPage('faq');return false;">FAQ &amp; Contact</a>
+  </nav>
+
+  <div id="toggleBar">
+    <button onclick="document.body.classList.toggle('clues-on')">Toggle learning clues (teacher use)</button>
+  </div>
+
+  <div class="layout">
+    <main>
+
+      <section id="page-about">
+        <p class="meta clue" data-clue="Byline/date formatting differs from real agency style">By Editorial Team · Reviewed 03/2024 · Diabetes Health Series #7 · Page 1 of 4</p>
+
+        <h2>Diabetes: An Overview</h2>
+
+        <h3 id="a-overview">Overview</h3>
+        <p>Diabetes is a chronic condition that affects how your body turns food into energy. Most food is broken down into sugar (glucose) and released into the bloodstream, where insulin — a hormone made by the pancreas — helps move it into cells for energy. With diabetes, the body doesn't make enough insulin, doesn't use it well, or both, so blood sugar stays too high over time.</p>
+        <p>Left unmanaged, consistently high blood sugar (<span class="term" onclick="toggleTerm(event,'hyper')">hyperglycemia<span class="term-popup" id="term-hyper"><span class="def-title">Hyperglycemia</span>Blood sugar that is higher than normal, which over time can damage blood vessels and nerves.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>) can damage blood vessels and nerves throughout the body. This is why early diagnosis and ongoing management matter — not just for day-to-day symptoms, but for long-term health.</p>
+        <p>Diabetes was first described thousands of years ago, but it wasn't until the discovery of insulin in the early 1920s that it became a manageable condition rather than a fatal one for people with type 1 diabetes. Since then, treatment has advanced dramatically, from animal-derived insulin to today's synthetic insulins, <span class="term" onclick="toggleTerm(event,'cgm')">continuous glucose monitors<span class="term-popup" id="term-cgm"><span class="def-title">Continuous glucose monitor (CGM)</span>A wearable sensor that tracks blood sugar levels throughout the day and night, without repeated finger pricks.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>, and insulin pumps.</p>
+        <p>Blood sugar regulation is a balancing act involving several hormones, not just insulin. Glucagon, produced by the pancreas as well, raises blood sugar when it's too low, working opposite to <span class="term" onclick="toggleTerm(event,'insulin')">insulin<span class="term-popup" id="term-insulin"><span class="def-title">Insulin</span>A hormone made by the pancreas that helps move sugar from the bloodstream into the body's cells for energy.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>. In diabetes, this balance is disrupted, which is part of why blood sugar can swing both high and low, especially for people on insulin therapy.</p>
+
+        <h3 id="a-types">Main Types</h3>
+        <ul>
+          <li><strong>Type 1 diabetes</strong> — the body's immune system attacks insulin-producing <span class="term" onclick="toggleTerm(event,'beta')">beta cells<span class="term-popup" id="term-beta"><span class="def-title">Beta cells</span>Specialized cells in the pancreas that produce and release insulin.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span> in the pancreas; usually diagnosed in children and young adults, requires lifelong insulin therapy. It accounts for a small share of diagnosed diabetes cases overall.</li>
+          <li><strong>Type 2 diabetes</strong> — the body doesn't use insulin well (<span class="term" onclick="toggleTerm(event,'ir')">insulin resistance<span class="term-popup" id="term-ir"><span class="def-title">Insulin resistance</span>When cells respond poorly to insulin, so the body needs more of it to manage blood sugar effectively.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>), and over time the pancreas can't keep up with demand. It's the most common form, often linked to a combination of genetics, age, and lifestyle factors, and can sometimes be managed with diet, exercise, and oral or injectable medication.</li>
+          <li><strong><span class="term" onclick="toggleTerm(event,'gest')">Gestational diabetes<span class="term-popup" id="term-gest"><span class="def-title">Gestational diabetes</span>A form of diabetes that develops during pregnancy and usually resolves after birth, though it raises future type 2 risk.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span></strong> — develops during pregnancy, typically in the second or third trimester, and usually goes away after birth. It raises the risk of type 2 diabetes later in life for both parent and child.</li>
+          <li><strong><span class="term" onclick="toggleTerm(event,'pre')">Prediabetes<span class="term-popup" id="term-pre"><span class="def-title">Prediabetes</span>Blood sugar levels higher than normal but not yet high enough to be classified as type 2 diabetes.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span></strong> — blood sugar levels higher than normal but not yet high enough for a type 2 diagnosis. Lifestyle changes at this stage can often delay or prevent progression to type 2 diabetes.</li>
+          <li><strong>Monogenic and other rare forms</strong> — caused by a single gene mutation rather than the combination of factors seen in type 1 or type 2; these are uncommon and often run in families.</li>
+          <li><strong>Type 3c diabetes</strong> — sometimes results from damage to the pancreas from other conditions, such as chronic pancreatitis or pancreatic surgery, which affects both insulin and enzyme production.</li>
+        </ul>
+
+        <h3 id="a-symptoms">Common Symptoms</h3>
+        <ul>
+          <li>Increased thirst and frequent urination</li>
+          <li>Fatigue</li>
+          <li>Blurred vision</li>
+          <li>Slow-healing sores or cuts</li>
+          <li>Unexplained weight loss (more common in type 1)</li>
+          <li>Tingling or numbness in hands or feet</li>
+          <li>Increased hunger, even after eating</li>
+          <li>Frequent infections, such as gum, skin, or vaginal infections</li>
+          <li>Dry, itchy skin</li>
+          <li>Darkened patches of skin, often around the neck or armpits</li>
+          <li>Irritability or mood changes tied to blood sugar swings</li>
+          <li>Headaches, particularly when blood sugar is very high or very low</li>
+        </ul>
+
+        <p class="clue" data-clue="No named source, agency, or link out — a real CDC page would cite exact prevalence data with a source">One in three American adults today is impacted in some way by diabetes or related health concerns, making it one of the most talked-about conditions in the country.</p>
+
+        <h3 id="a-risk">Risk Factors</h3>
+        <p>Several factors can raise the likelihood of developing type 2 diabetes, including having a family history of the condition, being over age 45, carrying extra weight, being physically inactive, and having had gestational diabetes in a previous pregnancy. Some racial and ethnic groups also face higher risk, though the exact reasons are still an active area of study.</p>
+        <p>For type 1 diabetes, the causes are different and less well understood — genetics play a role, and researchers believe environmental triggers, such as certain viral infections, may contribute in people who are already genetically susceptible.</p>
+        <p>Other contributing factors for type 2 risk include high blood pressure, abnormal cholesterol levels, polycystic ovary syndrome, and a history of heart disease or stroke. Sleep quality has also emerged as an area of interest, with some research linking chronic poor sleep to higher insulin resistance.</p>
+
+        <h3 id="a-diagnosis">How Diabetes Is Diagnosed</h3>
+        <p>Healthcare providers typically use one of a few blood tests to diagnose diabetes: a fasting blood sugar test, an <span class="term" onclick="toggleTerm(event,'a1c')">A1C test<span class="term-popup" id="term-a1c"><span class="def-title">A1C</span>A blood test that reflects your average blood sugar level over roughly the past three months.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span> that reflects average blood sugar over about three months, or an oral glucose tolerance test. Because symptoms can be mild or easy to miss early on, routine screening is often recommended for people with risk factors, even before symptoms appear.</p>
+        <p>If your results are borderline, your provider may repeat testing on a different day to confirm the diagnosis before starting treatment.</p>
+        <p>For gestational diabetes specifically, most pregnant individuals are screened between 24 and 28 weeks using a glucose challenge test, though those at higher risk may be tested earlier.</p>
+
+        <p class="clue" data-clue="Generic reassurance with no specifics — reads like filler rather than sourced medical guidance">The good news is that with today's understanding of diabetes, more people than ever are able to catch it early and take steps toward better health.</p>
+
+        <h3 id="a-prevention">Prevention</h3>
+        <p>While type 1 diabetes cannot currently be prevented, research suggests that type 2 diabetes can often be delayed or prevented through sustained lifestyle changes, including maintaining a healthy weight, staying physically active, and eating a balanced diet. Structured lifestyle-change programs have shown meaningful results for people with prediabetes.</p>
+        <p>Even modest changes — such as losing a small percentage of body weight or adding regular walking — have been associated with meaningfully lower progression rates from prediabetes to type 2 diabetes in long-term studies.</p>
+
+        <h3 id="a-treatment">Treatment Options</h3>
+        <p>Treatment depends on the type of diabetes and individual health needs. Type 1 diabetes always requires insulin, delivered through injections or an <span class="term" onclick="toggleTerm(event,'pump')">insulin pump<span class="term-popup" id="term-pump"><span class="def-title">Insulin pump</span>A small wearable device that delivers a steady, adjustable flow of insulin throughout the day.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>. Type 2 diabetes treatment often starts with lifestyle changes and may progress to oral medications, non-insulin injectables, or insulin if blood sugar isn't well controlled through other means.</p>
+        <p>Newer classes of medication can also support weight management and offer cardiovascular benefits for some people with type 2 diabetes, which is why treatment plans are increasingly personalized rather than one-size-fits-all.</p>
+      </section>
+
+      <section id="page-stats" style="display:none;">
+        <p class="meta clue" data-clue="Byline/date formatting differs from real agency style">By Editorial Team · Reviewed 03/2024 · Diabetes Health Series #7 · Page 2 of 4</p>
+
+        <h2>Diabetes by the Numbers</h2>
+
+        <h3 id="s-overview">Overview</h3>
+        <p class="clue" data-clue="Vague, unsourced statistic — no citation, no named study, no year-specific data table">Studies show that nearly 9 out of 10 Americans could improve their health by understanding diabetes better, making this one of the most important conditions to learn about today.</p>
+        <div class="callout clue" data-clue="Real CDC statistics pages cite a specific named report (e.g. the National Diabetes Statistics Report) with exact figures and a publication year">Diabetes affects millions of people, and the number continues to rise every year across all age groups.</div>
+
+        <h3 id="s-affected">Who Is Affected</h3>
+        <p class="clue" data-clue="Rounded, unattributed figures with no age breakdowns, no state-level data, and no link to a downloadable dataset — real CDC stats pages provide all of these">Diabetes touches nearly every family in some way. Older adults are more likely to be affected than younger people, and men and women are affected at roughly similar rates. Many people living with prediabetes don't yet know it.</p>
+        <p>Rates also vary by region and community, which is part of why public health researchers continue to study the social and environmental factors that influence diabetes risk.</p>
+        <p>Globally, diabetes rates have been rising alongside urbanization and changing dietary patterns, though the pace and drivers of that rise differ significantly from country to country.</p>
+
+        <h3 id="s-economic">Economic Impact</h3>
+        <p class="clue" data-clue="A specific dollar figure with no source, no year, and no methodology link is a red flag — real reports cite an exact source like the American Diabetes Association's cost-of-diabetes study">Diabetes and its complications cost the country an enormous amount each year in medical care and lost productivity — some estimates put the number in the hundreds of billions of dollars annually.</p>
+        <p>These costs include direct medical expenses like hospital stays, medications, and supplies, as well as indirect costs such as missed workdays and reduced productivity.</p>
+        <p>Out-of-pocket costs for people managing diabetes can also be substantial, particularly for insulin and testing supplies, which is why insurance coverage and cost-assistance programs are frequently discussed in public health policy.</p>
+
+        <h3 id="s-complications">Complications Over Time</h3>
+        <p>Long-term high blood sugar can contribute to serious complications, including:</p>
+        <ul>
+          <li>Heart disease and stroke</li>
+          <li>Kidney disease, which can progress to kidney failure</li>
+          <li><span class="term" onclick="toggleTerm(event,'retino')">Diabetic retinopathy<span class="term-popup" id="term-retino"><span class="def-title">Diabetic retinopathy</span>Damage to blood vessels in the retina caused by high blood sugar, a leading cause of vision loss in adults with diabetes.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>, a leading cause of vision loss in adults</li>
+          <li><span class="term" onclick="toggleTerm(event,'neuro')">Nerve damage (neuropathy)<span class="term-popup" id="term-neuro"><span class="def-title">Neuropathy</span>Nerve damage caused by prolonged high blood sugar, often affecting sensation in the feet and hands.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>, often affecting the feet and hands</li>
+          <li>Slow wound healing, which can lead to serious foot complications</li>
+          <li>Increased risk of certain infections</li>
+          <li>Hearing impairment, which some research links to diabetes</li>
+          <li>Higher risk of depression and anxiety related to chronic disease management</li>
+        </ul>
+        <p class="clue" data-clue="No citation for a specific medical claim that real health agencies always source">Regular checkups can catch many of these complications early, when they're most treatable.</p>
+
+        <h3 id="s-trends">Trends</h3>
+        <p class="clue" data-clue="Claims a 'trend' with no chart, no data table, and no year-over-year figures — real statistical reports always include a visual or table here">Diagnoses have been trending upward for years, a pattern researchers link to factors like aging populations and lifestyle changes, though awareness and early screening have also improved.</p>
+        <p>Public health officials often track these trends to guide funding for prevention and treatment programs.</p>
+
+        <h3 id="s-management">Managing Diabetes</h3>
+        <p>Management typically involves monitoring blood sugar, taking prescribed medication or insulin, eating balanced meals, staying active, and regular checkups to watch for complications affecting the eyes, kidneys, nerves, and heart.</p>
+        <p class="clue" data-clue="Overly broad, feel-good claim with no data behind it — a common AI-generated-content pattern">With the right care, almost anyone can live a full and active life while managing diabetes successfully.</p>
+      </section>
+
+      <section id="page-resources" style="display:none;">
+        <p class="meta clue" data-clue="Byline/date formatting differs from real agency style">By Editorial Team · Reviewed 03/2024 · Diabetes Health Series #7 · Page 3 of 4</p>
+
+        <h2>Resources</h2>
+
+        <h3 id="r-support">Getting Support</h3>
+        <p>Living with diabetes can feel overwhelming at first, but a range of support options can help, from diabetes education programs to online communities and in-person support groups. Many people find that connecting with others managing the same condition makes a real difference.</p>
+        <p>Diabetes self-management education programs, often led by certified educators, can teach practical day-to-day skills like <span class="term" onclick="toggleTerm(event,'carb')">carbohydrate counting<span class="term-popup" id="term-carb"><span class="def-title">Carbohydrate counting</span>A meal-planning method that tracks grams of carbohydrate eaten, helping match food intake to insulin doses or activity levels.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>, reading nutrition labels, and adjusting medication around exercise.</p>
+        <p>Family members and caregivers can also benefit from education, particularly for children newly diagnosed with type 1 diabetes, since daily management often becomes a shared responsibility.</p>
+
+        <h3 id="r-diet">Diet and Exercise Basics</h3>
+        <p>There's no single "diabetes diet," but many care teams recommend an eating pattern rich in vegetables, whole grains, lean proteins, and healthy fats, while paying attention to portion sizes and carbohydrate intake. Working with a registered dietitian can help tailor an approach to individual needs and preferences.</p>
+        <p>Regular physical activity helps the body use insulin more effectively and can improve blood sugar control over time. Most guidance suggests a mix of aerobic activity and strength training, adjusted to individual ability and any existing complications.</p>
+
+        <h3 id="r-learn">Where to Learn More</h3>
+        <ul class="clue" data-clue="No .gov links, no phone number, no accessibility/FOIA/privacy links typical of real federal sites">
+          <li>National Diabetes & Health Council — dhcgov.org</li>
+          <li>Talk to your doctor or a certified diabetes educator</li>
+          <li>Look into local community health workshops in your area</li>
+          <li>Ask your pharmacist about diabetes management tools</li>
+        </ul>
+
+        <h3 id="r-questions">Questions to Ask Your Doctor</h3>
+        <ul>
+          <li>What type of diabetes do I have, and what does that mean for my treatment?</li>
+          <li>What should my target blood sugar range be?</li>
+          <li>How often should I check my blood sugar?</li>
+          <li>Are there any warning signs I should watch for?</li>
+          <li>What lifestyle changes would help most in my situation?</li>
+          <li>How might diabetes affect other health conditions I have?</li>
+          <li>What should I do if my blood sugar is too high or too low?</li>
+        </ul>
+      </section>
+
+      <section id="page-faq" style="display:none;">
+        <p class="meta clue" data-clue="Byline/date formatting differs from real agency style">By Editorial Team · Reviewed 03/2024 · Diabetes Health Series #7 · Page 4 of 4</p>
+
+        <h2>Frequently Asked Questions &amp; Contact</h2>
+
+        <h3 id="f-faq">Frequently Asked Questions</h3>
+        <p><strong>Can diabetes be cured?</strong><br>
+        <span class="clue" data-clue="Oversimplified, universally-reassuring claim with no nuance or source — real health agencies note that type 1 has no cure and type 2 remission varies by individual">There's currently no cure, but many people are able to manage it so well that it barely affects their daily life.</span></p>
+
+        <p><strong>Is diabetes contagious?</strong><br>
+        No. Diabetes is not contagious and cannot be spread from person to person.</p>
+
+        <p><strong>Can children get diabetes?</strong><br>
+        Yes. Type 1 diabetes is most often diagnosed in children and young adults, and type 2 diabetes, once rare in kids, has become more common in recent years.</p>
+
+        <p><strong>Does eating sugar cause diabetes?</strong><br>
+        Eating sugar alone doesn't directly cause diabetes, though diets high in sugar can contribute to weight gain, which is a risk factor for type 2 diabetes.</p>
+
+        <p><strong>Can I still eat carbohydrates if I have diabetes?</strong><br>
+        Yes. Carbohydrates aren't off-limits — many care plans focus on the amount and type of carbohydrate eaten, and pairing carbs with protein or fiber to slow blood sugar spikes.</p>
+
+        <p><strong>Is it safe to exercise with diabetes?</strong><br>
+        For most people, yes — exercise is generally recommended as part of diabetes management, though people on insulin or certain medications should talk to their care team about adjusting doses around activity to avoid <span class="term" onclick="toggleTerm(event,'hypo')">hypoglycemia<span class="term-popup" id="term-hypo"><span class="def-title">Hypoglycemia</span>Blood sugar that drops too low, which can cause shakiness, confusion, or in severe cases, loss of consciousness.<br><a href="#" onclick="event.stopPropagation();showPage('faq');return false;">See full glossary →</a></span></span>.</p>
+
+        <h3 id="f-glossary">Quick Glossary</h3>
+        <ul>
+          <li><strong>Insulin</strong> — a hormone made by the pancreas that helps move sugar from the blood into cells for energy</li>
+          <li><strong>Beta cells</strong> — cells in the pancreas that produce insulin</li>
+          <li><strong>A1C</strong> — a blood test reflecting average blood sugar over roughly three months</li>
+          <li><strong>Hypoglycemia</strong> — blood sugar that is too low</li>
+          <li><strong>Hyperglycemia</strong> — blood sugar that is too high</li>
+          <li><strong>Insulin resistance</strong> — when cells respond poorly to insulin, requiring more of it to manage blood sugar</li>
+          <li><strong>Prediabetes</strong> — blood sugar higher than normal but not yet at type 2 diabetes levels</li>
+          <li><strong>Gestational diabetes</strong> — diabetes that develops during pregnancy</li>
+          <li><strong>Ketoacidosis</strong> — a serious complication, most often in type 1 diabetes, caused by a severe lack of insulin</li>
+          <li><strong>Neuropathy</strong> — nerve damage caused by prolonged high blood sugar</li>
+          <li><strong>Diabetic retinopathy</strong> — eye damage from high blood sugar that can affect vision</li>
+          <li><strong>Insulin pump</strong> — a wearable device that delivers a steady, adjustable flow of insulin</li>
+          <li><strong>Continuous glucose monitor (CGM)</strong> — a wearable sensor that tracks blood sugar continuously</li>
+          <li><strong>Carbohydrate counting</strong> — tracking carb grams eaten to match food to insulin or activity</li>
+        </ul>
+
+        <h3 id="f-contact">Contact</h3>
+        <div class="callout clue" data-clue="No mailing address, no hotline number, no 'last updated' date in a standard federal format — every real .gov health page includes these">For more information, reach out to us anytime — we're here to help you on your health journey.</div>
+      </section>
+
+      <section id="page-aboutus" style="display:none;">
+        <p class="meta">National Diabetes &amp; Health Council</p>
+        <h2>About Us</h2>
+        <p>The National Diabetes &amp; Health Council is a fictional educational organization created for this media-literacy exercise. This website demonstrates how a health-information site can present educational material, navigation, and trust signals.</p>
+        <p>Our goal in this example is to encourage readers to think critically about online health information, including who publishes it, how claims are supported, and whether credentials and sources can be independently verified.</p>
+        <div class="callout">This council is fictional and is not affiliated with the CDC, a federal agency, or any real medical organization.</div>
+      </section>
+
+      <section id="page-mission" style="display:none;">
+        <p class="meta">National Diabetes &amp; Health Council</p>
+        <h2>Our Mission</h2>
+        <p>Our fictional mission is to make diabetes education easier to understand while encouraging readers to evaluate health information carefully.</p>
+        <p>Readers should consider the source, publication date, evidence supporting claims, and whether professionals and institutions can be independently verified.</p>
+      </section>
+
+      <section id="page-contact" style="display:none;">
+        <p class="meta">National Diabetes &amp; Health Council</p>
+        <h2>Contact Us</h2>
+        <p>This demonstration site does not have a real medical office, hotline, or patient-support service.</p>
+        <p>For real medical questions, contact a licensed healthcare professional or an established health organization rather than relying on this fictional website.</p>
+      </section>
+
+      <section id="page-bio" style="display:none;">
+        <p class="meta">By Editorial Team · Reviewed 03/2024</p>
+        <h2>About Dr. Marcus Whitfield</h2>
+        <div class="doctor-photo-wrap">
+          <svg class="doctor-photo" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrative portrait of fictional Dr. Marcus Whitfield">
+            <defs><linearGradient id="bioBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9e8f5"/><stop offset="1" stop-color="#9dbbd3"/></linearGradient></defs>
+            <rect width="300" height="300" rx="150" fill="url(#bioBg)"/>
+            <path d="M62 300c8-65 42-96 88-96s80 31 88 96" fill="#fff"/>
+            <path d="M126 209l24 28 24-28v91h-48z" fill="#e8eef3"/>
+            <circle cx="150" cy="112" r="55" fill="#8f5f48"/>
+            <path d="M94 108c3-50 34-77 71-70 34 7 53 31 48 71-15-18-33-24-58-24-22 0-42 8-61 23z" fill="#3c2b26"/>
+            <circle cx="131" cy="117" r="6" fill="#2b2523"/><circle cx="169" cy="117" r="6" fill="#2b2523"/>
+            <path d="M136 145c9 7 19 7 28 0" fill="none" stroke="#5d3e31" stroke-width="5" stroke-linecap="round"/>
+            <path d="M131 167c12 8 26 8 38 0" fill="#fff"/>
+            <path d="M135 218l15 19 15-19" fill="none" stroke="#1a5691" stroke-width="6"/>
+            <path d="M138 224h24v36h-24z" fill="#1a5691"/>
+          </svg>
+          <div class="photo-caption">Illustrative portrait — Dr. Whitfield is a fictional character.</div>
+        </div>
+        <p>Dr. Whitfield has reviewed diabetes content for this fictional council for over a decade. Colleagues describe him as thorough, mild-mannered, and mysteriously unavailable after dark.</p>
+        <p>Sharp-eyed readers have noted that Dr. Whitfield is never seen at the same event as a certain caped billionaire from a certain fictional city, and that both tend to vanish the moment the Bat-Signal goes up. This has never been confirmed. Dr. Whitfield declined to comment, then disappeared through a nearby window.</p>
+        <p style="font-size:13px;color:#888;">(This bio is a joke — like the rest of "Dr. Whitfield," he isn't real.)</p>
+        <p><a href="#" onclick="showPage('faq');return false;">← Back to FAQ &amp; Contact</a></p>
+      </section>
+
+    </main>
+
+    <aside class="onpage" id="onpage-about">
+      <div class="side-box">
+        <h4>On This Page</h4>
+        <a href="#a-overview">Overview</a>
+        <a href="#a-types">Main Types</a>
+        <a href="#a-symptoms">Common Symptoms</a>
+        <a href="#a-risk">Risk Factors</a>
+        <a href="#a-diagnosis">How It's Diagnosed</a>
+        <a href="#a-prevention">Prevention</a>
+        <a href="#a-treatment">Treatment Options</a>
+      </div>
+      <div class="side-box">
+        <h4>Related Topics</h4>
+        <a href="#" onclick="showPage('stats');return false;">Diabetes Statistics</a>
+        <a href="#" onclick="showPage('resources');return false;">Diet &amp; Exercise Basics</a>
+        <a href="#" onclick="showPage('faq');return false;">Diabetes Glossary</a>
+      </div>
+      <div class="side-box">
+        <h4>Share This Page</h4>
+        <div class="share-row">
+          <button type="button" onclick="shareEmail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</button>
+          <button type="button" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+          <button type="button" onclick="copyPageLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copy Link</button>
+        </div>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-stats" style="display:none;">
+      <div class="side-box">
+        <h4>On This Page</h4>
+        <a href="#s-overview">Overview</a>
+        <a href="#s-affected">Who Is Affected</a>
+        <a href="#s-economic">Economic Impact</a>
+        <a href="#s-complications">Complications</a>
+        <a href="#s-trends">Trends</a>
+        <a href="#s-management">Managing Diabetes</a>
+      </div>
+      <div class="side-box">
+        <h4>Related Topics</h4>
+        <a href="#" onclick="showPage('about');return false;">Risk Factors</a>
+        <a href="#" onclick="showPage('resources');return false;">Getting Support</a>
+      </div>
+      <div class="side-box">
+        <h4>Share This Page</h4>
+        <div class="share-row">
+          <button type="button" onclick="shareEmail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</button>
+          <button type="button" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+          <button type="button" onclick="copyPageLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copy Link</button>
+        </div>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-resources" style="display:none;">
+      <div class="side-box">
+        <h4>On This Page</h4>
+        <a href="#r-support">Getting Support</a>
+        <a href="#r-diet">Diet &amp; Exercise</a>
+        <a href="#r-learn">Where to Learn More</a>
+        <a href="#r-questions">Questions to Ask</a>
+      </div>
+      <div class="side-box">
+        <h4>Related Topics</h4>
+        <a href="#" onclick="showPage('about');return false;">Treatment Options</a>
+        <a href="#" onclick="showPage('faq');return false;">FAQ</a>
+      </div>
+      <div class="side-box">
+        <h4>Share This Page</h4>
+        <div class="share-row">
+          <button type="button" onclick="shareEmail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</button>
+          <button type="button" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+          <button type="button" onclick="copyPageLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copy Link</button>
+        </div>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-faq" style="display:none;">
+      <div class="side-box">
+        <h4>On This Page</h4>
+        <a href="#f-faq">FAQ</a>
+        <a href="#f-glossary">Quick Glossary</a>
+        <a href="#f-contact">Contact</a>
+      </div>
+      <div class="side-box">
+        <h4>Related Topics</h4>
+        <a href="#" onclick="showPage('about');return false;">About Diabetes</a>
+        <a href="#" onclick="showPage('stats');return false;">Diabetes Statistics</a>
+      </div>
+      <div class="side-box">
+        <h4>Share This Page</h4>
+        <div class="share-row">
+          <button type="button" onclick="shareEmail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</button>
+          <button type="button" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+          <button type="button" onclick="copyPageLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copy Link</button>
+        </div>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-aboutus" style="display:none;">
+      <div class="side-box"><h4>About the Council</h4>
+        <a href="#" onclick="showPage('mission');return false;">Our Mission</a>
+        <a href="#" onclick="showPage('contact');return false;">Contact Us</a>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-mission" style="display:none;">
+      <div class="side-box"><h4>Our Mission</h4>
+        <a href="#" onclick="showPage('aboutus');return false;">About Us</a>
+        <a href="#" onclick="showPage('contact');return false;">Contact Us</a>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-contact" style="display:none;">
+      <div class="side-box"><h4>Contact</h4>
+        <a href="#" onclick="showPage('aboutus');return false;">About Us</a>
+        <a href="#" onclick="showPage('resources');return false;">Resources</a>
+      </div>
+    </aside>
+    <aside class="onpage" id="onpage-bio" style="display:none;">
+      <div class="side-box">
+        <h4>On This Page</h4>
+        <a href="#">About Dr. Whitfield</a>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <h3>National Diabetes &amp; Health Council</h3>
+        <p>Educational information about diabetes, prevention, treatment, and everyday health.</p>
+        <div class="footer-links">
+          <a href="#" onclick="openModal('aboutCouncil');return false;">About the Council</a>
+          <a href="#" onclick="showPage('bio');return false;">About Dr. Whitfield</a>
+          <a href="#" onclick="showPage('faq');return false;">FAQ &amp; Contact</a>
+        </div>
+      </div>
+      <div>
+        <h3>Stay Connected</h3>
+        <p>Subscribe to receive updates from the council.</p>
+        <button class="footer-button" type="button" onclick="openModal('subscribeModal')">Subscribe</button>
+        <div class="footer-links" style="margin-top:10px;">
+          <a href="#" onclick="openModal('subscribeModal');return false;">Manage email updates</a>
+        </div>
+      </div>
+      <div>
+        <h3>Sign Up for Email Updates</h3>
+        <p>Enter your email below. Your subscription is saved in this browser.</p>
+        <form class="footer-form" id="footerSignup" onsubmit="subscribeFromFooter(event)">
+          <input id="footerEmail" type="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
+          <button type="submit">Sign up</button>
+        </form>
+        <div class="form-status" id="footerStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="footer-inner" style="display:block;">
+      <div class="fine-print">
+        This page is a fictional example created for a media-literacy exercise and is not affiliated with the CDC or any government agency.
+        Dr. Marcus Whitfield is also fictional. The portrait shown on this page is an illustrative, computer-generated representation, not a photograph of a real physician.
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="aboutCouncil" role="dialog" aria-modal="true" aria-labelledby="aboutCouncilTitle">
+    <div class="modal">
+      <button class="modal-close" type="button" onclick="closeModal('aboutCouncil')" aria-label="Close">×</button>
+      <h2 id="aboutCouncilTitle">About the Council</h2>
+      <p>The National Diabetes &amp; Health Council is a fictional organization created for this media-literacy exercise. The site is designed to demonstrate how a health-information website can look and behave while giving readers clues for evaluating credibility.</p>
+      <p>It is not a government agency, medical practice, or real-world public-health organization. Information on this demonstration page should not be treated as medical advice.</p>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="subscribeModal" role="dialog" aria-modal="true" aria-labelledby="subscribeTitle">
+    <div class="modal">
+      <button class="modal-close" type="button" onclick="closeModal('subscribeModal')" aria-label="Close">×</button>
+      <h2 id="subscribeTitle">Subscribe to Email Updates</h2>
+      <p>Sign up to save an email subscription for this demo site. Because this is a standalone HTML file, it cannot send real email newsletters without a connected email service or backend.</p>
+      <form id="modalSignup" onsubmit="subscribeFromModal(event)">
+        <label for="modalEmail"><strong>Email address</strong></label>
+        <div class="footer-form">
+          <input id="modalEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <button type="submit">Subscribe</button>
+        </div>
+        <div class="form-status" id="modalStatus" aria-live="polite"></div>
+      </form>
+      <div id="currentSubscription" style="font-size:12px;margin-top:12px;color:#555;"></div>
+    </div>
+  </div>
+
+<script>
+    window.addEventListener('load', function(){
+      setTimeout(function(){
+        document.getElementById('cookie-banner').classList.add('show');
+      }, 400);
+    });
+
+
+    function shareEmail(){
+      var subject=encodeURIComponent(document.title);
+      var body=encodeURIComponent('I thought you might want to see this page: '+window.location.href);
+      window.location.href='mailto:?subject='+subject+'&body='+body;
+    }
+    async function copyPageLink(){
+      try{
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Page link copied to your clipboard.');
+      }catch(err){
+        prompt('Copy this page link:', window.location.href);
+      }
+    }
+
+    function toggleTerm(e, id){
+      e.stopPropagation();
+      document.querySelectorAll('.term-popup.show').forEach(function(p){
+        if(p.id !== 'term-'+id) p.classList.remove('show');
+      });
+      document.getElementById('term-'+id).classList.toggle('show');
+    }
+    document.addEventListener('click', function(){
+      document.querySelectorAll('.term-popup.show').forEach(function(p){ p.classList.remove('show'); });
+    });
+
+    var pageLabels = {about:'About Diabetes', stats:'Statistics', resources:'Resources', faq:'FAQ & Contact', bio:'About Dr. Whitfield', aboutus:'About Us', mission:'Our Mission', contact:'Contact Us'};
+    function showPage(id){
+      ['about','stats','resources','faq','bio','aboutus','mission','contact'].forEach(function(p){
+        document.getElementById('page-'+p).style.display = (p===id) ? 'block' : 'none';
+        document.getElementById('onpage-'+p).style.display = (p===id) ? 'block' : 'none';
+      });
+      document.getElementById('crumb-current').textContent = pageLabels[id];
+      window.scrollTo(0,0);
+    }
+
+    function openModal(id){
+      var el=document.getElementById(id);
+      if(el){ el.classList.add('show'); updateSubscriptionDisplay(); }
+    }
+    function closeModal(id){
+      var el=document.getElementById(id);
+      if(el) el.classList.remove('show');
+    }
+    document.querySelectorAll('.modal-backdrop').forEach(function(backdrop){
+      backdrop.addEventListener('click', function(e){
+        if(e.target===backdrop) backdrop.classList.remove('show');
+      });
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key==='Escape') document.querySelectorAll('.modal-backdrop.show').forEach(function(m){m.classList.remove('show');});
+    });
+
+    function saveSubscription(email){
+      email=email.trim().toLowerCase();
+      if(!email) return false;
+      localStorage.setItem('ndhc_subscription_email', email);
+      localStorage.setItem('ndhc_subscription_active', 'true');
+      return true;
+    }
+    function subscribeFromFooter(e){
+      e.preventDefault();
+      var email=document.getElementById('footerEmail').value;
+      var status=document.getElementById('footerStatus');
+      if(saveSubscription(email)){
+        status.textContent='You’re subscribed on this browser.';
+        status.style.color='#d8f3dc';
+        document.getElementById('footerSignup').reset();
+      }
+    }
+    function subscribeFromModal(e){
+      e.preventDefault();
+      var email=document.getElementById('modalEmail').value;
+      var status=document.getElementById('modalStatus');
+      if(saveSubscription(email)){
+        status.textContent='Subscription saved successfully.';
+        status.style.color='#1b6e3a';
+        document.getElementById('modalSignup').reset();
+        updateSubscriptionDisplay();
+      }
+    }
+    function updateSubscriptionDisplay(){
+      var el=document.getElementById('currentSubscription');
+      if(!el) return;
+      var email=localStorage.getItem('ndhc_subscription_email');
+      el.textContent=email ? 'Subscribed as: '+email : 'No email subscription is currently saved in this browser.';
+    }
+
+  </script>
+
+</body>
+</html>
